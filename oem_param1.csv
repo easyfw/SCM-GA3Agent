@@ -1,0 +1,8 @@
+ItemID,TagName,DataType,Description
+1,%MW100,INT,현재 운전모드
+2,%MW101,INT,자동/수동 상태
+3,%C0.V,INT,재단 횟수(메인)
+4,%C1.V,INT,재단 횟수(보조)
+5,%MD462,INT,누적 재단 횟수
+6,%MW500,INT,일일 생산량
+7,%MW501,INT,누적 생산량

@@ -1,0 +1,8 @@
+ItemID,TagName,DataType,Description
+1,PLC.%C0.V,DINT,Cutting Count
+2,PLC.%MW100,INT,Operation Mode
+3,PLC.%MW101,INT,Auto/Manual Status
+4,PLC.%M290,BOOL,Running Flag
+5,PLC.%MD462,DINT,Total Production Count
+6,PLC.%M600,BOOL,Alarm Status 1
+7,PLC.%M601,BOOL,Alarm Status 2

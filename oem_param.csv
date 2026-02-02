@@ -1,0 +1,8 @@
+ItemID,TagName,DataType,Description
+1,Gabbiani!%MW100,INT,현재 운전모드
+2,Gabbiani!%MW101,INT,자동/수동 상태
+3,Gabbiani!%C0.V,INT,재단 횟수(메인)
+4,Gabbiani!%C1.V,INT,재단 횟수(보조)
+5,Gabbiani!%MD462,INT,누적 재단 횟수
+6,Gabbiani!%MW500,INT,일일 생산량
+7,Gabbiani!%MW501,INT,누적 생산량
