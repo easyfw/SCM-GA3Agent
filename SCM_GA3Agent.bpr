@@ -3,10 +3,10 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.06.00"/>
-    <PROJECT value="SCM_GV3Agent.exe"/>
-    <OBJFILES value="SCM_GV3Agent.obj SvcController.obj 
+    <PROJECT value="SCM_GA3Agent.exe"/>
+    <OBJFILES value="SCM_GA3Agent.obj SvcController.obj 
       C:\Borland\CBuilder6\Imports\OPCAutomation_TLB.obj"/>
-    <RESFILES value="SCM_GV3Agent.res"/>
+    <RESFILES value="SCM_GA3Agent.res"/>
     <IDLFILES value=""/>
     <IDLGENFILES value=""/>
     <DEFFILE value=""/>
@@ -32,7 +32,7 @@
     <LINKER value="ilink32"/>
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
-    <MAINSOURCE value="SCM_GV3Agent.cpp"/>
+    <MAINSOURCE value="SCM_GA3Agent.cpp"/>
     <INCLUDEPATH value="C:\Borland\CBuilder6\Imports;C:\Borland\CBuilder6\Projects;E:\SCM-GV3Agent;$(BCB)\include;$(BCB)\include\vcl"/>
     <LIBPATH value="C:\Borland\CBuilder6\Imports;C:\Borland\CBuilder6\Projects;&quot;E:\SCM-GV3Agent&quot;;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
@@ -57,9 +57,9 @@
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
-      <FILE FILENAME="SCM_GV3Agent.res" FORMNAME="" UNITNAME="SCM_GV3Agent.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="SCM_GV3Agent.cpp" FORMNAME="" UNITNAME="SCM_GV3Agent" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="SvcController.cpp" FORMNAME="SCM_Ga3Agent" UNITNAME="SvcController" CONTAINERID="CCompiler" DESIGNCLASS="TService" LOCALCOMMAND=""/>
+      <FILE FILENAME="SCM_GA3Agent.res" FORMNAME="" UNITNAME="SCM_GA3Agent.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="SCM_GA3Agent.cpp" FORMNAME="" UNITNAME="SCM_GA3Agent" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="SvcController.cpp" FORMNAME="SCM_GA3Agent" UNITNAME="SvcController" CONTAINERID="CCompiler" DESIGNCLASS="TService" LOCALCOMMAND=""/>
       <FILE FILENAME="C:\Borland\CBuilder6\Imports\OPCAutomation_TLB.cpp" FORMNAME="" UNITNAME="OPCAutomation_TLB" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
