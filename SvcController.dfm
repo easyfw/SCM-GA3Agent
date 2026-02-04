@@ -20,6 +20,7 @@ object SCM_Ga3Agent: TSCM_Ga3Agent
     Top = 48
   end
   object Timer1: TTimer
+    OnTimer = Timer1Timer
     Left = 112
     Top = 48
   end

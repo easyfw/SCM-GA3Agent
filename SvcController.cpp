@@ -707,7 +707,12 @@ void __fastcall TSCM_Ga3Agent::ServiceStart(TService *Sender, bool &Started)
         {
             Timer1->Interval = m_nTimeInterval;
             Timer1->Enabled = true;
+		    LogMessage("Timer1 enabled, Interval=" + IntToStr(Timer1->Interval));
         }
+		else
+		{
+		    LogMessage("ERROR: Timer1 is NULL!");
+		}
 
         LogMessage("SVC READY");
     }
