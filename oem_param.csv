@@ -1,8 +1,11 @@
 ItemID,TagName,DataType,Description
-1,Gabbiani!%MW100,INT,현재 운전모드
-2,Gabbiani!%MW101,INT,자동/수동 상태
-3,Gabbiani!%C0.V,INT,재단 횟수(메인)
-4,Gabbiani!%C1.V,INT,재단 횟수(보조)
-5,Gabbiani!%MD462,INT,누적 재단 횟수
-6,Gabbiani!%MW500,INT,일일 생산량
-7,Gabbiani!%MW501,INT,누적 생산량
+1,Gabbiani!%MW1029,INT,운전모드(BIT4=Auto)
+2,Gabbiani!%MW1036,INT,장비전원(BIT5=On)
+3,Gabbiani!%MW1014,INT,총절단 횟수
+4,Gabbiani!%MW1015,INT,패널 카운터
+5,Gabbiani!%MW1023,INT,메인 톱날 속도
+6,Gabbiani!%MW1027,INT,판넬 두께
+7,Gabbiani!%MW1028,INT,절단 폭
+8,Gabbiani!%MD1012,DINT,누적 생산량1
+9,Gabbiani!%MD1014,DINT,누적 생산량2
+10,Gabbiani!%MD1016,DINT,누적 생산량3
