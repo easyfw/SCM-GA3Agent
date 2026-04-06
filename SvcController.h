@@ -28,6 +28,11 @@ typedef OPCItemPtr        _di_IOPCItem;
 #define PROTO_ETX       0x03
 #define MAX_OPC_ITEMS   500
 
+// === 메시지 타입 (패킷 헤더에 포함) ===
+#define MSG_TYPE_ALARM      0x01    // OPC Alarm/Error 데이터
+#define MSG_TYPE_PROD       0x02    // WinCutPlus 생산 데이터
+#define MSG_TYPE_ALARM_PROD 0x03    // Alarm + Prod 복합
+
 // 응답 코드
 #define RESP_CMD_ACK    0x01
 #define RESP_CMD_NAK    0x02
@@ -39,6 +44,11 @@ typedef OPCItemPtr        _di_IOPCItem;
 
 #define HK_DEBUG		0		// debug enable
 #define	SERVER_SIMULATE	0		// 시뮬레이션 모드
+
+// === WinCutPlus 생산 데이터 관련 ===
+#define MAX_PROD_FIELD_LEN  64      // 각 필드 최대 길이
+#define MAX_PROD_FIELDS     20      // 최대 필드 수
+#define PROD_DATA_BUF_SIZE  1024    // 생산 데이터 버퍼 크기
 
 // OPC 아이템 정보 구조체
 struct TOPCItemInfo
@@ -52,6 +62,14 @@ struct TOPCItemInfo
     VARIANT     varPrevValue;
     long        Quality;
     bool        Changed;
+};
+
+// === WinCutPlus 생산 행 구조체 ===
+struct TProdRecord
+{
+    String      RawLine;            // 원본 행
+    int         FieldCount;         // 파싱된 필드 수
+    String      Fields[MAX_PROD_FIELDS];  // 파싱된 필드들
 };
 
 //---------------------------------------------------------------------------
@@ -84,7 +102,7 @@ private:        // User declarations
 
     // 시리얼 통신 관련
     bool            m_bCommOpened;
-    BYTE            m_SendBuffer[1024];
+    BYTE            m_SendBuffer[4096];
     bool            m_bFirstSend;
 
 	// 응답 관련
@@ -94,6 +112,14 @@ private:        // User declarations
     DWORD           m_dwLastSendTick;       // 마지막 전송 시간
 	DWORD           m_dwHeartbeatInterval;  // Heartbeat 주기 (ms)
 
+    // === WinCutPlus 생산 파일 모니터링 ===
+    String          m_sProdBasePath;        // "C:\\Wincutplus\\prod\\"
+    String          m_sCurrentProdFile;     // 현재 감시 중인 파일 전체 경로
+    int             m_nLastLineCount;       // 마지막으로 확인한 행 수
+    String          m_sLastProdDate;        // 현재 감시 중인 날짜 (YYYYMMDD)
+    bool            m_bProdNewData;         // 신규 생산 데이터 존재 여부
+    TProdRecord     m_ProdRecord;           // 최신 생산 행 데이터
+
     // 로그
     TCHAR gbuf[65535];
 
@@ -102,7 +128,7 @@ private:        // User declarations
     String __fastcall VariantToString(const tagVARIANT &v);
     int __fastcall GetQualityCode(long quality);
 
-        // === 설정 로드 함수 ===
+    // === 설정 로드 함수 ===
     void __fastcall LoadSettings();
 
     // 내부 함수 - CSV 로드
@@ -112,7 +138,7 @@ private:        // User declarations
     bool __fastcall InitSerialPort(int portNum, int baudRate);
     void __fastcall CloseSerialPort();
     BYTE __fastcall CalcChecksum(BYTE* data, int len);
-    int __fastcall BuildPacket(BYTE* buffer);
+    int __fastcall BuildPacket(BYTE* buffer, BYTE msgType);
     void __fastcall SendToESP32(int changeCount = 0, bool isHeartbeat = false);
 
     // 내부 함수 - 값 비교
@@ -122,7 +148,13 @@ private:        // User declarations
 
 	bool __fastcall WaitForResponse(int timeoutMs);
 	void __fastcall HandleSendFailure();
- 
+
+    // === WinCutPlus 생산 파일 모니터링 함수 ===
+    String __fastcall GetTodayProdFilePath();
+    bool __fastcall CheckProdFileNewLine();
+    bool __fastcall ParseProdLine(const String &line, TProdRecord &rec);
+    int __fastcall BuildProdPacket(BYTE* buffer, const TProdRecord &rec);
+    int __fastcall BuildCombinedPacket(BYTE* buffer, const TProdRecord &rec);
 
 public:         // User declarations
 
