@@ -36,7 +36,7 @@ __fastcall TSCM_Ga3Agent::TSCM_Ga3Agent(TComponent* Owner)
     m_nTimeInterval = 5000;
 
     // === WinCutPlus 초기화 ===
-    m_sProdBasePath = "C:\\Wincutplus\\prod\\";
+    m_sProdBasePath = "C:\\WinCutPlus\\prod\\";
     m_sCurrentProdFile = "";
     m_nLastLineCount = 0;
     m_sLastProdDate = "";
@@ -212,7 +212,7 @@ void __fastcall TSCM_Ga3Agent::LoadSettings()
 
         // [WinCutPlus] 섹션
         m_sProdBasePath = ini->ReadString("WinCutPlus", "ProdPath",
-                                          "C:\\Wincutplus\\prod\\");
+                                          "C:\\WinCutPlus\\prod\\");
         if (!m_sProdBasePath.IsEmpty() &&
             m_sProdBasePath[m_sProdBasePath.Length()] != '\\')
             m_sProdBasePath += "\\";
@@ -448,19 +448,23 @@ String __fastcall TSCM_Ga3Agent::GetTodayProdFilePath()
     SYSTEMTIME st;
     GetLocalTime(&st);
 
-    String dateStr;
-    dateStr.printf("%04d%02d%02d", st.wYear, st.wMonth, st.wDay);
+    // WinCutPlus 실제 구조: prod\년\월\일 (앞자리 0 없음, 확장자 없음)
+    // 예: C:\WinCutPlus\prod\2026\4\6
+    String dateStr = IntToStr(st.wYear) + "\\" +
+                     IntToStr(st.wMonth) + "\\" +
+                     IntToStr(st.wDay);
+
+    String dateKey = IntToStr(st.wYear) + IntToStr(st.wMonth) + IntToStr(st.wDay);
 
     // 날짜가 바뀌면 행 카운터 리셋
-    if (dateStr != m_sLastProdDate)
+    if (dateKey != m_sLastProdDate)
     {
-        m_sLastProdDate = dateStr;
+        m_sLastProdDate = dateKey;
         m_nLastLineCount = 0;
         LogMessage("PROD: new date " + dateStr);
     }
 
-    // 경로 패턴 - WinCutPlus 실제 구조에 맞춰 수정
-    return m_sProdBasePath + dateStr + ".csv";
+    return m_sProdBasePath + dateStr;
 }
 
 //---------------------------------------------------------------------------
