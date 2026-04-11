@@ -31,6 +31,9 @@ __fastcall TSCM_Ga3Agent::TSCM_Ga3Agent(TComponent* Owner)
     m_dwLastSendTick = 0;
     m_dwHeartbeatInterval = 5000;
 
+    // No-change counter (log suppression)
+    m_nNoChangeCount = 0;
+
     m_nComPort = 3;
     m_nBaudRate = 115200;
     m_nTimeInterval = 5000;
@@ -114,6 +117,39 @@ void __fastcall TSCM_Ga3Agent::LogMessage(String msg)
     timeStr.printf("[%02d:%02d:%02d] ", st.wHour, st.wMinute, st.wSecond);
 
     AnsiString finalMsg = timeStr + msg + "\r\n";
+    WriteFile(hFile, finalMsg.c_str(), finalMsg.Length(), &dwBytesWritten, NULL);
+    CloseHandle(hFile);
+}
+
+//---------------------------------------------------------------------------
+// WriteStatusFile - overwrite single-line status for no-change cycles
+//---------------------------------------------------------------------------
+void __fastcall TSCM_Ga3Agent::WriteStatusFile(String msg)
+{
+    String exePath = ExtractFilePath(ParamStr(0));
+    String statusPath = exePath + "logsave_status.txt";
+
+    HANDLE hFile = CreateFile(
+        statusPath.c_str(),
+        GENERIC_WRITE,
+        FILE_SHARE_READ,
+        NULL,
+        CREATE_ALWAYS,
+        FILE_ATTRIBUTE_NORMAL,
+        NULL
+    );
+    if (hFile == INVALID_HANDLE_VALUE) return;
+
+    SYSTEMTIME st;
+    GetLocalTime(&st);
+
+    String timeStr;
+    timeStr.printf("[%04d-%02d-%02d %02d:%02d:%02d] ",
+        st.wYear, st.wMonth, st.wDay,
+        st.wHour, st.wMinute, st.wSecond);
+
+    AnsiString finalMsg = timeStr + msg + "\r\n";
+    DWORD dwBytesWritten;
     WriteFile(hFile, finalMsg.c_str(), finalMsg.Length(), &dwBytesWritten, NULL);
     CloseHandle(hFile);
 }
@@ -750,7 +786,19 @@ void __fastcall TSCM_Ga3Agent::SendToESP32(int changeCount, bool isHeartbeat)
             logMsg += " FAIL";
         }
         
-        LogMessage(logMsg);
+        // Log to file only when data changed (OPC or Prod) or error.
+        // No-change heartbeats just update the overwrite status file.
+        if (changeCount > 0 || m_bProdNewData || logMsg.Pos("FAIL") > 0)
+        {
+            m_nNoChangeCount = 0;
+            LogMessage(logMsg);
+        }
+        else
+        {
+            m_nNoChangeCount++;
+            WriteStatusFile("NoChange:" + IntToStr(m_nNoChangeCount)
+                          + " " + logMsg);
+        }
     }
     catch (Exception &ex)
     {

@@ -9,3 +9,6 @@ ItemID,TagName,DataType,Description
 8,Gabbiani!%MD1012,DINT,누적 생산량1
 9,Gabbiani!%MD1014,DINT,누적 생산량2
 10,Gabbiani!%MD1016,DINT,누적 생산량3
+11,Gabbiani!%MW5952,INT,TE 비가동 상태
+12,Gabbiani!%MW5953,INT,TL 비가동 상태
+13,Gabbiani!%MW5955,INT,TT 비가동 상태

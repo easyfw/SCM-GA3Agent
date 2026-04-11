@@ -112,6 +112,9 @@ private:        // User declarations
     DWORD           m_dwLastSendTick;       // 마지막 전송 시간
 	DWORD           m_dwHeartbeatInterval;  // Heartbeat 주기 (ms)
 
+    // No-change counter (log suppression)
+    int             m_nNoChangeCount;
+
     // === WinCutPlus 생산 파일 모니터링 ===
     String          m_sProdBasePath;        // "C:\\Wincutplus\\prod\\"
     String          m_sCurrentProdFile;     // 현재 감시 중인 파일 전체 경로
@@ -125,6 +128,7 @@ private:        // User declarations
 
     // 내부 함수 - 기존
     void __fastcall LogMessage(String msg);
+    void __fastcall WriteStatusFile(String msg);
     String __fastcall VariantToString(const tagVARIANT &v);
     int __fastcall GetQualityCode(long quality);
 
