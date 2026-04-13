@@ -12,3 +12,11 @@ ItemID,TagName,DataType,Description
 11,Gabbiani!%MW5952,INT,TE 비가동 상태
 12,Gabbiani!%MW5953,INT,TL 비가동 상태
 13,Gabbiani!%MW5955,INT,TT 비가동 상태
+14,Gabbiani!%MW5504,INT,TL CARICO 상태(0=대기/1=전송중/2=완료)
+15,Gabbiani!%MW5505,INT,TL LAVORO 상태(0=대기/1=전송중/2=완료)
+16,Gabbiani!%MW5510,INT,TT CARICO 상태(0=대기/1=전송중/2=완료)
+17,Gabbiani!%MW5511,INT,TT LAVORO 상태(0=대기/1=전송중/2=완료)
+18,Gabbiani!%MW1352,INT,Start/Stop 명령(0x3F=Start/0x3F00=Stop)
+19,Gabbiani!%MW1351,INT,Abort 명령(0x4004=Abort)
+20,Gabbiani!%MW5971,INT,전기패널 상태 비트마스크
+21,Gabbiani!%MW5954,INT,TP 비가동 상태
